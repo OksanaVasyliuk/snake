@@ -28,6 +28,37 @@ def draw_board(table,coordinates):
         table[x][y]="X" 
     return table
 
-print (draw_board(table,([(0,0),(2,4), (3,5),(6,9)])))
+
+def movement (coordinates, direction):
+    last_spot = coordinates[-1]
+    print (last_spot)
+    if direction == "s":
+        change=last_spot[0]+1
+        move=(change,last_spot[1])
+        coordinates.append(move)
+    if direction == "n":
+        change=last_spot[0]-1
+        move=(change,last_spot[1])
+        coordinates.append(move)
+    if direction == "e":
+        change=last_spot[1]+1
+        move=(last_spot[0],change)
+        coordinates.append(move) 
+    if direction == "w":
+        change=last_spot[1]-1
+        move=(last_spot[0],change)
+        coordinates.append(move)                   
+
+coordinates=[(8,9),(0,0)]
+movement(coordinates, 'e')
+print(coordinates)
+movement(coordinates, 'e')
+print(coordinates)
+movement(coordinates, 's')
+print(coordinates)
+movement(coordinates, 'n')
+print(coordinates)
+
+print (draw_board(table, coordinates))
 
 print_board(table)
