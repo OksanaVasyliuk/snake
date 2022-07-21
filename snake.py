@@ -19,9 +19,15 @@ table=game_board()
 print (table)
 
 
-def draw_board(table,x,y):
-    table[x-1][y-1]="X" 
+def draw_board(table,coordinates):
+    for i in coordinates:
+        x_y=i
+        for j in x_y:
+            x=x_y[0]
+            y=x_y[1]
+        table[x][y]="X" 
     return table
 
-print (draw_board(table,2,2))
+print (draw_board(table,([(0,0),(2,4), (3,5),(6,9)])))
+
 print_board(table)
