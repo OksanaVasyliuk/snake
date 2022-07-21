@@ -16,8 +16,6 @@ def print_board (table):
         print()
 
 table=game_board()
-print (table)
-
 
 def draw_board(table,coordinates):
     for i in coordinates:
@@ -31,34 +29,29 @@ def draw_board(table,coordinates):
 
 def movement (coordinates, direction):
     last_spot = coordinates[-1]
-    print (last_spot)
     if direction == "s":
         change=last_spot[0]+1
         move=(change,last_spot[1])
         coordinates.append(move)
-    if direction == "n":
+    if direction == "w":
         change=last_spot[0]-1
         move=(change,last_spot[1])
         coordinates.append(move)
-    if direction == "e":
+    if direction == "d":
         change=last_spot[1]+1
         move=(last_spot[0],change)
         coordinates.append(move) 
-    if direction == "w":
+    if direction == "a":
         change=last_spot[1]-1
         move=(last_spot[0],change)
         coordinates.append(move)                   
 
-coordinates=[(8,9),(0,0)]
-movement(coordinates, 'e')
-print(coordinates)
-movement(coordinates, 'e')
-print(coordinates)
-movement(coordinates, 's')
-print(coordinates)
-movement(coordinates, 'n')
-print(coordinates)
-
-print (draw_board(table, coordinates))
-
-print_board(table)
+coordinates=[(0,0),(0,1),(0,2)]
+while True:
+    player_move=input ("Where do you want a snake to move now?\nChose between a - left, d - right, w - up, s - down or end - to leave the game. ")
+    if player_move == "end":
+        break
+    movement(coordinates, player_move)
+    print (draw_board(table, coordinates))
+    print_board(table)
+    
