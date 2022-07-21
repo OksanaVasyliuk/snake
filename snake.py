@@ -15,8 +15,6 @@ def print_board (table):
             print("{}".format(value), end=" ")
         print()
 
-table=game_board()
-
 def draw_board(table,coordinates):
     for i in coordinates:
         x_y=i
@@ -24,7 +22,6 @@ def draw_board(table,coordinates):
             x=x_y[0]
             y=x_y[1]
         table[x][y]="X" 
-    return table
 
 
 def movement (coordinates, direction):
@@ -44,7 +41,9 @@ def movement (coordinates, direction):
     if direction == "a":
         change=last_spot[1]-1
         move=(last_spot[0],change)
-        coordinates.append(move)                   
+        coordinates.append(move)
+    coordinates.pop(0)                   
+
 
 coordinates=[(0,0),(0,1),(0,2)]
 while True:
@@ -52,6 +51,7 @@ while True:
     if player_move == "end":
         break
     movement(coordinates, player_move)
-    print (draw_board(table, coordinates))
+    table=game_board()
+    draw_board(table, coordinates)
     print_board(table)
     
