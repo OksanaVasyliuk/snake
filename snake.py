@@ -21,7 +21,10 @@ def draw_board(table,coordinates):
         for j in x_y:
             x=x_y[0]
             y=x_y[1]
-        table[x][y]="X" 
+        if table[x][y]!="X":
+            table[x][y]="X" 
+        else:
+            raise ValueError
 
 
 def movement (coordinates, direction):
@@ -32,6 +35,8 @@ def movement (coordinates, direction):
         coordinates.append(move)
     if direction == "w":
         change=last_spot[0]-1
+        if change == -1:
+            raise ValueError
         move=(change,last_spot[1])
         coordinates.append(move)
     if direction == "d":
@@ -40,6 +45,8 @@ def movement (coordinates, direction):
         coordinates.append(move) 
     if direction == "a":
         change=last_spot[1]-1
+        if change == -1:
+            raise ValueError       
         move=(last_spot[0],change)
         coordinates.append(move)
     coordinates.pop(0)                   
@@ -50,8 +57,20 @@ while True:
     player_move=input ("Where do you want a snake to move now?\nChose between a - left, d - right, w - up, s - down or end - to leave the game. ")
     if player_move == "end":
         break
-    movement(coordinates, player_move)
+    try:
+        movement(coordinates, player_move)
+    except ValueError:
+        print ("Oh no! You crashed against the wall. You lost!")
+        break
+    print (coordinates)
     table=game_board()
-    draw_board(table, coordinates)
+    try:
+        draw_board(table, coordinates)
+    except ValueError:
+        print ("Oh no! You are bitting yourself. You lost!")
+        break
+    except IndexError:
+        print ("Oh no! You crashed against the wall. You lost!")
+        break
     print_board(table)
     
