@@ -1,3 +1,4 @@
+from random import randrange
 
 def game_board (size=10):
     table = []
@@ -51,10 +52,29 @@ def movement (coordinates, direction):
         coordinates.append(move)
     coordinates.pop(0)                   
 
+def fruit ():
+    coordinates=[]
+    for i in range(2):
+        coordinates.append(randrange(0,9))
+    return coordinates
+
+def fruit_on_board(table, coordinates):
+    for i in coordinates:
+        x=coordinates[0]
+        y=coordinates[1]
+    if table[x][y]=="X":
+        raise ValueError
+    if not "@" in table:
+        table[x][y]="@"
+
 
 coordinates=[(0,0),(0,1),(0,2)]
+
 while True:
-    player_move=input ("Where do you want a snake to move now?\nChose between a - left, d - right, w - up, s - down or end - to leave the game. ")
+    player_move=input (
+        "Where do you want a snake to move now?\n\
+        Chose between a - left, d - right, w - up, s - down\n\
+        or end - to leave the game. ")
     if player_move == "end":
         break
     try:
@@ -62,8 +82,16 @@ while True:
     except ValueError:
         print ("Oh no! You crashed against the wall. You lost!")
         break
-    print (coordinates)
+    
     table=game_board()
+    coordinates_fruit=fruit()
+    try:
+        taable=fruit_on_board(table,coordinates_fruit)
+    except ValueError:
+        print("error")
+        coordinates_fruit=fruit()
+        table=fruit_on_board(table,coordinates_fruit) 
+
     try:
         draw_board(table, coordinates)
     except ValueError:
@@ -72,5 +100,11 @@ while True:
     except IndexError:
         print ("Oh no! You crashed against the wall. You lost!")
         break
+ 
+    
     print_board(table)
+
+
+
+
     
