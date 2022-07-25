@@ -7,23 +7,26 @@ def print_board (table):
             print("{}".format(value), end=" ")
         print()
 
-def draw_board(coordinates,size=10):
+def game_board (size=10):
     table = []
     for a in range(size):
         row = []
         for b in range(size):
             row.append(".")
         table.append(row)
+    return table
+
+def draw_board(board,coordinates):
     for i in coordinates:
         x_y=i
         for j in x_y:
             x=x_y[0]
             y=x_y[1]
-        if table[x][y]!="X":
-            table[x][y]="X" 
+        if board[x][y]!="X":
+            board[x][y]="X" 
         else:
             raise ValueError
-    return table
+    return board
 
 def movement (coordinates, direction):
     last_spot = coordinates[-1]
@@ -63,21 +66,24 @@ def fruit_on_board(table, coordinates):
         raise ValueError
     if not "@" in table:
         table[x][y]="@"
+    return table
 
 
 coordinates=[(0,0),(0,1),(0,2)]
-table=draw_board(coordinates)
+table=game_board()
 coordinates_fruit=fruit()
 
+
 try:
-    fruit_on_board(table,coordinates_fruit)
+    table = fruit_on_board(table,coordinates_fruit)
+    print_board (table)
 except ValueError:
     print("error")
     coordinates_fruit=fruit()
     fruit_on_board(table,coordinates_fruit) 
     print_board(table)
 
-while True:
+for i in range(5):
     player_move=input (
         "Where do you want a snake to move now?\n\
         Chose between a - left, d - right, w - up, s - down\n\
@@ -86,17 +92,19 @@ while True:
         break
     try:
         movement(coordinates, player_move)
+        print (coordinates)
     except ValueError:
         print ("Oh no! You crashed against the wall. You lost!")
         break
-
-    try:
-        table=draw_board(coordinates)
-    except ValueError:
-        print ("Oh no! You are bitting yourself. You lost!")
-        break
-    except IndexError:
-        print ("Oh no! You crashed against the wall. You lost!")
-        break
-
-    print_board(table)
+    
+    print ("table+fruit",table)
+    table2=draw_board(table, coordinates)
+    print ("table+fruit 2 time",table)
+    print ("changed table",table2)
+    # except ValueError:
+    #     print ("Oh no! You are bitting yourself. You lost!")
+    #     break
+    # except IndexError:
+    #     print ("Oh no! You crashed against the wall. You lost!")
+    #     break
+    print_board(table2)
