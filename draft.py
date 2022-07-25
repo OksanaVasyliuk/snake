@@ -30,8 +30,6 @@ def fruit_on_board(table, coordinates):
 
 while True:
     coordinates=fruit()
-    asnswer=input("continue?")
-    print (coordinates)
     try:
         fruit_on_board(table,coordinates)
     except ValueError:

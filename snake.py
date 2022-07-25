@@ -1,14 +1,5 @@
 from random import randrange
 
-def game_board (size=10):
-    table = []
-    for a in range(size):
-        row = []
-        for b in range(size):
-            row.append(".")
-        table.append(row)
-    return table
-
 def print_board (table):
     print("Game board:")
     for row in table:
@@ -16,7 +7,13 @@ def print_board (table):
             print("{}".format(value), end=" ")
         print()
 
-def draw_board(table,coordinates):
+def draw_board(coordinates,size=10):
+    table = []
+    for a in range(size):
+        row = []
+        for b in range(size):
+            row.append(".")
+        table.append(row)
     for i in coordinates:
         x_y=i
         for j in x_y:
@@ -26,7 +23,7 @@ def draw_board(table,coordinates):
             table[x][y]="X" 
         else:
             raise ValueError
-
+    return table
 
 def movement (coordinates, direction):
     last_spot = coordinates[-1]
@@ -52,7 +49,7 @@ def movement (coordinates, direction):
         coordinates.append(move)
     coordinates.pop(0)                   
 
-def fruit ():
+def fruit():
     coordinates=[]
     for i in range(2):
         coordinates.append(randrange(0,9))
@@ -69,6 +66,16 @@ def fruit_on_board(table, coordinates):
 
 
 coordinates=[(0,0),(0,1),(0,2)]
+table=draw_board(coordinates)
+coordinates_fruit=fruit()
+
+try:
+    fruit_on_board(table,coordinates_fruit)
+except ValueError:
+    print("error")
+    coordinates_fruit=fruit()
+    fruit_on_board(table,coordinates_fruit) 
+    print_board(table)
 
 while True:
     player_move=input (
@@ -82,29 +89,14 @@ while True:
     except ValueError:
         print ("Oh no! You crashed against the wall. You lost!")
         break
-    
-    table=game_board()
-    coordinates_fruit=fruit()
-    try:
-        taable=fruit_on_board(table,coordinates_fruit)
-    except ValueError:
-        print("error")
-        coordinates_fruit=fruit()
-        table=fruit_on_board(table,coordinates_fruit) 
 
     try:
-        draw_board(table, coordinates)
+        table=draw_board(coordinates)
     except ValueError:
         print ("Oh no! You are bitting yourself. You lost!")
         break
     except IndexError:
         print ("Oh no! You crashed against the wall. You lost!")
         break
- 
-    
+
     print_board(table)
-
-
-
-
-    
