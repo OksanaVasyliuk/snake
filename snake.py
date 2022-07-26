@@ -28,6 +28,14 @@ def draw_board(board,coordinates):
             raise ValueError
     return board
 
+def render_board(snake_positions, fruit_position, size=10):
+    board = game_board(size)
+    x, y = fruit_position
+    board[x][y] = "@"
+    for x, y in snake_positions:
+        board[x][y] = "X"
+    return board
+
 def movement (coordinates, direction):
     last_spot = coordinates[-1]
     if direction == "s":
@@ -72,7 +80,8 @@ def fruit_on_board(table, coordinates):
 coordinates=[(0,0),(0,1),(0,2)]
 table=game_board()
 coordinates_fruit=fruit()
-
+table = render_board (coordinates, coordinates_fruit)
+print_board (table)
 
 try:
     table = fruit_on_board(table,coordinates_fruit)
@@ -97,14 +106,13 @@ for i in range(5):
         print ("Oh no! You crashed against the wall. You lost!")
         break
     
-    print ("table+fruit",table)
-    table2=draw_board(table, coordinates)
-    print ("table+fruit 2 time",table)
-    print ("changed table",table2)
+    table = render_board(coordinates,coordinates_fruit)
+
+
     # except ValueError:
     #     print ("Oh no! You are bitting yourself. You lost!")
     #     break
     # except IndexError:
     #     print ("Oh no! You crashed against the wall. You lost!")
     #     break
-    print_board(table2)
+    print_board (table)
