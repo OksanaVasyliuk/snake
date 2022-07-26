@@ -60,6 +60,12 @@ def movement (coordinates, direction):
         coordinates.append(move)
     coordinates.pop(0)                   
 
+def movement_check(coordinates):
+    if len(coordinates) == len(set(coordinates)):
+        return False
+    else:
+        return True
+
 def fruit():
     coordinates=[]
     for i in range(2):
@@ -92,7 +98,7 @@ except ValueError:
     fruit_on_board(table,coordinates_fruit) 
     print_board(table)
 
-for i in range(5):
+for i in range(20):
     player_move=input (
         "Where do you want a snake to move now?\n\
         Chose between a - left, d - right, w - up, s - down\n\
@@ -101,18 +107,14 @@ for i in range(5):
         break
     try:
         movement(coordinates, player_move)
-        print (coordinates)
     except ValueError:
         print ("Oh no! You crashed against the wall. You lost!")
         break
     
     table = render_board(coordinates,coordinates_fruit)
+    result = movement_check (coordinates)
+    if result:
+        print ("Oh no! You are bitting yourself. You lost!")
+        break
 
-
-    # except ValueError:
-    #     print ("Oh no! You are bitting yourself. You lost!")
-    #     break
-    # except IndexError:
-    #     print ("Oh no! You crashed against the wall. You lost!")
-    #     break
     print_board (table)
