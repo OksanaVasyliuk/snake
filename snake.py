@@ -95,16 +95,14 @@ def fruit():
         coordinates.append(randrange(0,10))
     return tuple(coordinates)
 
-# def fruit_on_board(table, coordinates):
-#     for i in coordinates:
-#         x=coordinates[0]
-#         y=coordinates[1]
-#     if table[x][y]=="X":
-#         raise ValueError
-#     if not "@" in table:
-#         table[x][y]="@"
-#     return table
-
+def player_input():
+    player_move=input("Where do you want a snake to move now?\na - left, d - right, w - up, s - down\nend - to leave the game. ")
+    while True:
+        if player_move=="a" or player_move=="w" or player_move=="s" or player_move=="d" or player_move=="end":
+            return player_move
+            break
+        else:
+            player_move=input ("Incorrect input, please try again: ")
 
 coordinates=[(0,0),(0,1),(0,2)]
 table=game_board()
@@ -119,13 +117,9 @@ while True:
         coordinates_fruit=fruit()
     else:
         while coordinates[-1] != coordinates_fruit:
-            player_move=input (
-                "Where do you want a snake to move now?\n\
-                Chose between a - left, d - right, w - up, s - down\n\
-                or end - to leave the game. ")
-            if player_move!="a" and player_move!="w" and player_move!="s" and player_move!="d" and player_move!="end":
-                player_move=input ("Incorrect input, please try again: ")
+            player_move=player_input()
             if player_move == "end":
+                print ("Game is over!")
                 flag = True
                 break
             try:
@@ -149,12 +143,10 @@ while True:
                 break
             print_board (table)
         else:
-            print ("Yammy! It is good for me!")
-            player_move=input (
-                "Where do you want a snake to move now?\n\
-                Chose between a - left, d - right, w - up, s - down\n\
-                or end - to leave the game. ")
+            print ("Yammy! It is good for me! I will drow in the next step")
+            player_move=player_input()
             if player_move == "end":
+                print ("Game is over!")
                 flag = True
                 break
             try:
