@@ -1,4 +1,9 @@
 from random import randrange
+import argparse
+
+parser = argparse.ArgumentParser(description='argparse greeting')
+parser.add_argument('-s', '--size', help='size of the board you want to play', required=True)
+args = parser.parse_args()
 
 def print_board (table):
     print("Game board:")
@@ -7,11 +12,12 @@ def print_board (table):
             print("{}".format(value), end=" ")
         print()
 
-def game_board (size=10):
+def game_board (size):
+    table_size = int(size)
     table = []
-    for a in range(size):
+    for a in range(table_size):
         row = []
-        for b in range(size):
+        for b in range(table_size):
             row.append(".")
         table.append(row)
     return table
@@ -89,10 +95,11 @@ def movement_check(coordinates):
     else:
         return True
 
-def fruit():
+def fruit(size):
+    upper_number = int (size)
     coordinates=[]
     for i in range(2):
-        coordinates.append(randrange(0,10))
+        coordinates.append(randrange(0,upper_number))
     return tuple(coordinates)
 
 def player_input():
@@ -105,16 +112,16 @@ def player_input():
             player_move=input ("Incorrect input, please try again: ")
 
 coordinates=[(0,0),(0,1),(0,2)]
-table=game_board()
+table=game_board(args.size)
 draw_board(table,coordinates)
 print_board (table)
 
 while True:
     flag = False
-    coordinates_fruit=fruit()
+    coordinates_fruit=fruit(args.size)
     check = coordinates_fruit in coordinates
     if check:
-        coordinates_fruit=fruit()
+        coordinates_fruit=fruit(args.size)
     else:
         while coordinates[-1] != coordinates_fruit:
             player_move=player_input()
