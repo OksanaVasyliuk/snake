@@ -95,15 +95,15 @@ def fruit():
         coordinates.append(randrange(0,10))
     return tuple(coordinates)
 
-def fruit_on_board(table, coordinates):
-    for i in coordinates:
-        x=coordinates[0]
-        y=coordinates[1]
-    if table[x][y]=="X":
-        raise ValueError
-    if not "@" in table:
-        table[x][y]="@"
-    return table
+# def fruit_on_board(table, coordinates):
+#     for i in coordinates:
+#         x=coordinates[0]
+#         y=coordinates[1]
+#     if table[x][y]=="X":
+#         raise ValueError
+#     if not "@" in table:
+#         table[x][y]="@"
+#     return table
 
 
 coordinates=[(0,0),(0,1),(0,2)]
@@ -112,34 +112,42 @@ draw_board(table,coordinates)
 print_board (table)
 
 while True:
+    flag = False
     coordinates_fruit=fruit()
     check = coordinates_fruit in coordinates
-    print (check)
     if check:
         coordinates_fruit=fruit()
-        print (coordinates_fruit)
     else:
         while coordinates[-1] != coordinates_fruit:
             player_move=input (
                 "Where do you want a snake to move now?\n\
                 Chose between a - left, d - right, w - up, s - down\n\
                 or end - to leave the game. ")
+            if player_move!="a" and player_move!="w" and player_move!="s" and player_move!="d" and player_move!="end":
+                player_move=input ("Incorrect input, please try again: ")
             if player_move == "end":
+                flag = True
                 break
             try:
                 movement(coordinates, player_move)
             except ValueError:
                 print ("Oh no! You crashed against the wall. You lost!")
+                flag = True
                 break
         
-            table = render_board(coordinates,coordinates_fruit)
-            result = movement_check (coordinates)
+            try:
+                table = render_board(coordinates,coordinates_fruit)
+                result = movement_check (coordinates)
+            except IndexError:
+                print ("Oh no! You crashed against the wall. You lost!")
+                flag = True
+                break
+            
             if result:
                 print ("Oh no! You are bitting yourself. You lost!")
+                flag = True
                 break
             print_board (table)
-            print (coordinates)
-            print (coordinates_fruit)
         else:
             print ("Yammy! It is good for me!")
             player_move=input (
@@ -147,18 +155,21 @@ while True:
                 Chose between a - left, d - right, w - up, s - down\n\
                 or end - to leave the game. ")
             if player_move == "end":
+                flag = True
                 break
             try:
                 increase(coordinates, player_move)
             except ValueError:
+                flag = True
                 print ("Oh no! You crashed against the wall. You lost!")
                 break
-        
+
             table = render_board(coordinates,coordinates_fruit)
             result = movement_check (coordinates)
             if result:
                 print ("Oh no! You are bitting yourself. You lost!")
+                flag = True
                 break
             print_board (table)
-            print (coordinates)
-            print (coordinates_fruit)
+    if flag == True:
+            break
